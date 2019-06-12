@@ -16,6 +16,15 @@ struct buttonData buttonPressed(unsigned char packetbuffer[])
   return button;
 }
 
+int isUpButton(struct buttonData button)
+{
+  if((button.type == 'B')&&(button.number == 5))
+  {
+    return 1;
+  } else return 0;
+}
+
+
 
 //   uint8_t buttnum = packetbuffer[2] - '0';
 //   boolean pressed = packetbuffer[3] - '0';

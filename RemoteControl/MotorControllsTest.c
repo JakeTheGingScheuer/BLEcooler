@@ -11,9 +11,16 @@ void whenButtonPressIsPassedAPacketBufferItStoresValuesInStruct()
   TEST_ASSERT_TRUE(button.pressed);
 }
 
+void whenIsUpButtonIsCalledAndIsReturnTrue()
+{
+  struct buttonData button = buttonPressed(fakePacketBuffer);
+  TEST_ASSERT_TRUE(isUpButton(button));
+}
+
 int main(void)
 {
   UNITY_BEGIN();
     RUN_TEST(whenButtonPressIsPassedAPacketBufferItStoresValuesInStruct);
+    RUN_TEST(whenIsUpButtonIsCalledAndIsReturnTrue);
   return UNITY_END();
 }
