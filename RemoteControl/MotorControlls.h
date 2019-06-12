@@ -18,6 +18,11 @@ int isUp(unsigned int buttnum)
   else return 0;
 }
 
+int isPressed(int pressed)
+{
+  return pressed;
+}
+
 
 //   uint8_t buttnum = packetbuffer[2] - '0';
 //   boolean pressed = packetbuffer[3] - '0';
