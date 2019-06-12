@@ -9,6 +9,15 @@ int isInputAButton(unsigned char packetbuffer[])
   else return 0;
 }
 
+int isUp(unsigned int buttnum)
+{
+  if (buttnum == 5)
+  {
+    return 1;
+  }
+  else return 0;
+}
+
 
 //   uint8_t buttnum = packetbuffer[2] - '0';
 //   boolean pressed = packetbuffer[3] - '0';
