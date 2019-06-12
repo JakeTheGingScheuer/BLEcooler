@@ -13,7 +13,7 @@
 
 #define ADAFRUITBLE_REQ 8
 #define ADAFRUITBLE_RST 9
-#define ADAFRUITBLE_RDY 2  
+#define ADAFRUITBLE_RDY 2
 
 #define BLE_READPACKET_TIMEOUT 50
 
@@ -24,7 +24,7 @@ aci_evt_opcode_t lastBTLEstatus, BTLEstatus;
 uint8_t readPacket(Adafruit_BLE_UART *ble, uint16_t timeout);
 extern uint8_t packetbuffer[];
 
-void setup() 
+void setup()
 {
   pinMode(IN1, OUTPUT);
   pinMode(IN2, OUTPUT);
@@ -32,20 +32,31 @@ void setup()
   pinMode(IN4, OUTPUT);
   pinMode(ENA, OUTPUT);
   pinMode(ENB, OUTPUT);
-  
+
   while (!Serial) delay(1);
   Serial.begin(9600);
   bool serviceOn = UARTService.begin();
   UARTService.setDeviceName("COOLER");
 }
 
-void loop() 
+void goForward()
+{
+  digitalWrite(IN1, LOW);
+}
+
+
+
+
+
+
+
+void loop()
 {
   UARTService.pollACI();
   BTLEstatus = UARTService.getState();
-  
-  uint8_t len = readPacket(&UARTService, BLE_READPACKET_TIMEOUT);
-  if (len == 0) return;
+
+  uint8_t packetLength = readPacket(&UARTService, BLE_READPACKET_TIMEOUT);
+  if (packetLenght == 0) return;
 
   if (packetbuffer[1] == 'B') {
     uint8_t buttnum = packetbuffer[2] - '0';
@@ -60,7 +71,7 @@ void loop()
         analogWrite(ENB, 200);
       } else {
         digitalWrite(IN1, LOW);
-        digitalWrite(IN2, LOW); 
+        digitalWrite(IN2, LOW);
         digitalWrite(IN3, LOW);
         digitalWrite(IN4, LOW);
       }
