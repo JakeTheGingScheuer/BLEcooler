@@ -1,26 +1,19 @@
 #include <string.h>
 
-int isInputAButton(unsigned char packetbuffer[])
+typedef struct buttonData
 {
-  if (packetbuffer[1] == 'B')
-  {
-    return 1;
-  }
-  else return 0;
-}
+  char type;
+  int number;
+  int pressed;
+} buttonData;
 
-int isUp(unsigned int buttnum)
+struct buttonData buttonPressed(unsigned char packetbuffer[])
 {
-  if (buttnum == 5)
-  {
-    return 1;
-  }
-  else return 0;
-}
-
-int isPressed(int pressed)
-{
-  return pressed;
+  struct buttonData button;
+  button.type = packetbuffer[1];
+  button.number = packetbuffer[2]-'0';
+  button.pressed = packetbuffer[3]-'0';
+  return button;
 }
 
 
