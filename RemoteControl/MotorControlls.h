@@ -24,11 +24,6 @@ int isUpButton(struct buttonData button)
   } else return 0;
 }
 
-
-
-//   uint8_t buttnum = packetbuffer[2] - '0';
-//   boolean pressed = packetbuffer[3] - '0';
-//   if(buttnum == 5) {
 //     if (pressed) {
 //       digitalWrite(IN1, HIGH);
 //       digitalWrite(IN2, LOW);

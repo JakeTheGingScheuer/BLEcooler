@@ -1,4 +1,5 @@
 #include <SPI.h>
+#include "MotorControlls.h"
 #include "Adafruit_BLE_UART.h"
 #include "UARTServiceConfig.h"
 
@@ -24,6 +25,24 @@ aci_evt_opcode_t lastBTLEstatus, BTLEstatus;
 uint8_t readPacket(Adafruit_BLE_UART *ble, uint16_t timeout);
 extern uint8_t packetbuffer[];
 
+void moveForward()
+{
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+  analogWrite(ENA, 240);
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+  analogWrite(ENB, 240);
+}
+
+void stop()
+{
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, LOW);
+}
+
 void setup()
 {
   pinMode(IN1, OUTPUT);
@@ -39,42 +58,20 @@ void setup()
   UARTService.setDeviceName("COOLER");
 }
 
-void goForward()
-{
-  digitalWrite(IN1, LOW);
-}
-
-
-
-
-
-
-
 void loop()
 {
   UARTService.pollACI();
   BTLEstatus = UARTService.getState();
-
   uint8_t packetLength = readPacket(&UARTService, BLE_READPACKET_TIMEOUT);
   if (packetLenght == 0) return;
 
-  if (packetbuffer[1] == 'B') {
-    uint8_t buttnum = packetbuffer[2] - '0';
-    boolean pressed = packetbuffer[3] - '0';
-    if(buttnum == 5) {
-      if (pressed) {
-        digitalWrite(IN1, HIGH);
-        digitalWrite(IN2, LOW);
-        analogWrite(ENA, 200);
-        digitalWrite(IN3, HIGH);
-        digitalWrite(IN4, LOW);
-        analogWrite(ENB, 200);
-      } else {
-        digitalWrite(IN1, LOW);
-        digitalWrite(IN2, LOW);
-        digitalWrite(IN3, LOW);
-        digitalWrite(IN4, LOW);
-      }
+  struct buttonData buttonData = buttonPressed(packetbuffer[]);
+
+  if(isUpButton(buttonData)) {
+    if (buttonData.pressed) {
+      moveForward();
+    } else {
+      stop();
     }
   }
 }
