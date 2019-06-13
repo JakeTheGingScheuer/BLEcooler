@@ -19,9 +19,7 @@
 #define BLE_READPACKET_TIMEOUT 50
 
 Adafruit_BLE_UART UARTService = Adafruit_BLE_UART(ADAFRUITBLE_REQ, ADAFRUITBLE_RDY, ADAFRUITBLE_RST);
-
 aci_evt_opcode_t lastBTLEstatus, BTLEstatus;
-
 uint8_t readPacket(Adafruit_BLE_UART *ble, uint16_t timeout);
 extern uint8_t packetbuffer[];
 
@@ -29,18 +27,10 @@ void forward()
 {
   digitalWrite(IN1, HIGH);
   digitalWrite(IN2, LOW);
-  if(leftButton(buttonData))
-  {
-    analogWrite(ENA, 0);
-  }
-  else analogWrite(ENA, 240);
+  analogWrite(ENA, 240);
   digitalWrite(IN3, HIGH);
   digitalWrite(IN4, LOW);
-  if(rightButton(buttonData))
-  {
-    analogWrite(ENB, 0);
-  }
-  else analogWrite(ENB, 240);
+  analogWrite(ENB, 240);
 }
 
 void stop()
@@ -72,7 +62,9 @@ void setup()
 
   while (!Serial) delay(1);
   Serial.begin(9600);
+
   bool serviceOn = UARTService.begin();
+
   UARTService.setDeviceName("COOLER");
 }
 
@@ -81,9 +73,9 @@ void loop()
   UARTService.pollACI();
   BTLEstatus = UARTService.getState();
   uint8_t packetLength = readPacket(&UARTService, BLE_READPACKET_TIMEOUT);
-  if (packetLenght == 0) return;
+  if (packetLength == 0) return;
 
-  struct buttonData buttonData = buttonPressed(packetbuffer[]);
+  struct buttonData buttonData = buttonPressed(packetbuffer);
 
   if(forwardButton(buttonData)) {
     if (buttonData.pressed) {
@@ -91,6 +83,14 @@ void loop()
     } else {
       stop();
     }
+  }
+  if(rightButton(buttonData))
+  {
+    analogWrite(ENB, 0);
+  }
+  if(leftButton(buttonData))
+  {
+    analogWrite(ENA, 0);
   }
   if(reverseButton(buttonData)) {
     if (buttonData.pressed) {

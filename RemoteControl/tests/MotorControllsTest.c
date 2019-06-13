@@ -1,5 +1,5 @@
-#include "../../unity/unity.h"
-#include "./MotorControlls.h"
+#include "../../../unity/unity.h"
+#include "../MotorControlls.h"
 
 
 void whenButtonPressIsPassedAPacketBufferItStoresValuesInStruct()
