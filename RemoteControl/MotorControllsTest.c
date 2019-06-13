@@ -25,11 +25,28 @@ void whenButton4IsPressedReverseButtonIsTrue()
   TEST_ASSERT_TRUE(reverseButton(button));
 }
 
+void whenButton7IsPressedLeftButtonIsTrue()
+{
+  unsigned char fakePacketBuffer[] = {'!','B','7','1'};
+  struct buttonData button = buttonPressed(fakePacketBuffer);
+  TEST_ASSERT_TRUE(leftButton(button));
+}
+
+void whenButton8IsPressedRightButtonIsTrue()
+{
+  unsigned char fakePacketBuffer[] = {'!','B','8','1'};
+  struct buttonData button = buttonPressed(fakePacketBuffer);
+  TEST_ASSERT_TRUE(rightButton(button));
+}
+
 int main(void)
 {
   UNITY_BEGIN();
     RUN_TEST(whenButtonPressIsPassedAPacketBufferItStoresValuesInStruct);
     RUN_TEST(whenButton2IsPressedFowardButtonIsTrue);
     RUN_TEST(whenButton4IsPressedReverseButtonIsTrue);
+    RUN_TEST(whenButton7IsPressedLeftButtonIsTrue);
+    RUN_TEST(whenButton8IsPressedRightButtonIsTrue);
+
   return UNITY_END();
 }

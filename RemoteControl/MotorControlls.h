@@ -32,6 +32,22 @@ int reverseButton(struct buttonData button)
   } else return 0;
 }
 
+int leftButton(struct buttonData button)
+{
+  if((button.type == 'B')&&(button.number == 7))
+  {
+    return 1;
+  } else return 0;
+}
+
+int rightButton(struct buttonData button)
+{
+  if((button.type == 'B')&&(button.number == 8))
+  {
+    return 1;
+  } else return 0;
+}
+
 //     if (pressed) {
 //       digitalWrite(IN1, HIGH);
 //       digitalWrite(IN2, LOW);
