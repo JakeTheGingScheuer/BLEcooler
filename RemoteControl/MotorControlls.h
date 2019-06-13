@@ -16,9 +16,17 @@ struct buttonData buttonPressed(unsigned char packetbuffer[])
   return button;
 }
 
-int isUpButton(struct buttonData button)
+int forwardButton(struct buttonData button)
 {
-  if((button.type == 'B')&&(button.number == 5))
+  if((button.type == 'B')&&(button.number == 2))
+  {
+    return 1;
+  } else return 0;
+}
+
+int reverseButton(struct buttonData button)
+{
+  if((button.type == 'B')&&(button.number == 4))
   {
     return 1;
   } else return 0;
