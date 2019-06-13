@@ -25,14 +25,22 @@ aci_evt_opcode_t lastBTLEstatus, BTLEstatus;
 uint8_t readPacket(Adafruit_BLE_UART *ble, uint16_t timeout);
 extern uint8_t packetbuffer[];
 
-void moveForward()
+void forward()
 {
   digitalWrite(IN1, HIGH);
   digitalWrite(IN2, LOW);
-  analogWrite(ENA, 240);
+  if(leftButton(buttonData))
+  {
+    analogWrite(ENA, 0);
+  }
+  else analogWrite(ENA, 240);
   digitalWrite(IN3, HIGH);
   digitalWrite(IN4, LOW);
-  analogWrite(ENB, 240);
+  if(rightButton(buttonData))
+  {
+    analogWrite(ENB, 0);
+  }
+  else analogWrite(ENB, 240);
 }
 
 void stop()
@@ -41,6 +49,16 @@ void stop()
   digitalWrite(IN2, LOW);
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, LOW);
+}
+
+void reverse()
+{
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+  analogWrite(ENA, 200);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
+  analogWrite(ENB, 200);
 }
 
 void setup()
@@ -67,9 +85,16 @@ void loop()
 
   struct buttonData buttonData = buttonPressed(packetbuffer[]);
 
-  if(isUpButton(buttonData)) {
+  if(forwardButton(buttonData)) {
     if (buttonData.pressed) {
-      moveForward();
+      forward();
+    } else {
+      stop();
+    }
+  }
+  if(reverseButton(buttonData)) {
+    if (buttonData.pressed) {
+      reverse();
     } else {
       stop();
     }
